@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eaf2f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #4b6a78;
+      margin-bottom: 10px;
+    }
+
+    #time {
+      font-size: 40px;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #startBtn {
+      background-color: #98d7c2;
+    }
+
+    #stopBtn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #resetBtn {
+      background-color: #c3e6cb;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <h1>TIMER</h1>
+  <div id="time">25:00</div>
+  <div class="buttons">
+    <button id="startBtn">START</button>
+    <button id="stopBtn">STOP</button>
+    <button id="resetBtn">RESET</button>
+  </div>
+
+  <script>
+    let timer;
+    let time = 25 * 60;
+    let running = false;
+
+    const timeDisplay = document.getElementById('time');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function updateDisplay() {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (!running) {
+        running = true;
+        timer = setInterval(() => {
+          if (time > 0) {
+            time--;
+            updateDisplay();
+          } else {
+            clearInterval(timer);
+            running = false;
+          }
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+      running = false;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      time = 25 * 60; // Change this to set a different starting time
+      updateDisplay();
+    }
+
+    startBtn.addEventListener('click', startTimer);
+    stopBtn.addEventListener('click', stopTimer);
+    resetBtn.addEventListener('click', resetTimer);
+
+    updateDisplay(); // Initial display
+  </script>
+</body>
+</html>
